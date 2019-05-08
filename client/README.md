@@ -30,7 +30,16 @@ npm test
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 
+echo "# NIXLEVEN" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/rengifolu/NIXLEVEN.gitgit 
+git push -u origin master
 
+#para cliente
+
+npm install --save axios
 
 #para servidor
 
@@ -47,4 +56,4 @@ npm install -save nodemon eslint
 
 node ./node_modules/eslint/bin/eslint.js --init
 
-npm install --save express body-parser cors morgan# NIXLEVEN
+npm install --save express body-parser cors morgan
