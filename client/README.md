@@ -4,7 +4,7 @@
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
@@ -29,12 +29,11 @@ npm test
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-
 echo "# NIXLEVEN" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
-git remote add origin https://github.com/rengifolu/NIXLEVEN.gitgit 
+git remote add origin https://github.com/rengifolu/NIXLEVEN.gitgit
 git push -u origin master
 
 #para cliente
@@ -48,11 +47,18 @@ npm init -f
 npm install -save nodemon eslint
 
 #en package,json
-  <!-- "scripts": {
+
+<!-- para linux
+"scripts": {
     "start": "./node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run lint && node'",
-    "lint": "./node_modules/.bin/eslint **/*.js"
+    "lint": "./node_modules/.bin/eslint \"**/*.js\""
   }, -->
 
+<!-- para windows
+  "scripts": {
+    "start": "nodemon src/app.js",
+    "lint": "./node_modules/.bin/eslint \"**/*.js\""
+  }, -->
 
 node ./node_modules/eslint/bin/eslint.js --init
 
