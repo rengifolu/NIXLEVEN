@@ -13,7 +13,7 @@
       </ul>
     </div>
 
-      <div>
+<!--       <div>
         <h1>Bitcoin Price Index</h1>
 
         <section v-if="errored">
@@ -35,7 +35,7 @@
             </div>
 
         </section>
-      </div>
+      </div> -->
   </div>
 </template>
 

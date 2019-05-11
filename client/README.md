@@ -40,6 +40,12 @@ git push -u origin master
 
 npm install --save axios
 
+
+
+
+
+
+
 #para servidor
 
 npm init -f
@@ -63,3 +69,19 @@ npm install -save nodemon eslint
 node ./node_modules/eslint/bin/eslint.js --init
 
 npm install --save express body-parser cors morgan
+
+npm install --save sequelize sqlite3@3.1.8
+
+npm install jsonwebtoken
+
+npm install pg
+
+npm install --save vuex-router-sync
+
+npm install --save bcrypt-nodejs
+
+npm install --save joi
+
+#para ver puertos activos
+netstat -tulpn | grep LISTEN
+
