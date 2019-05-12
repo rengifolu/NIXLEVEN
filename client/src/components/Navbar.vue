@@ -1,13 +1,14 @@
 <template>
     <b-navbar toggleable="lg" type="dark" variant="primary">
-      <b-navbar-brand :to="{ name: 'Home' }">NavBar</b-navbar-brand>
+      <b-navbar-brand :to="{ name: 'Home' }">NixLeven</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'Portfolio' }" >Portfolio</b-nav-item>
-          <b-nav-item href="#" disabled>Disabled</b-nav-item>
+          <b-nav-item v-if="$store.state.isUserLoggedIn" :to="{ name: 'Usuario' }">Enabled</b-nav-item>
+          <b-nav-item v-else disabled>Disabled</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -29,8 +30,8 @@
             <template slot="button-content">
               <em>User</em>
             </template>
-            <b-dropdown-item :to="{ name: 'Login' }">Profile</b-dropdown-item>
-            <b-dropdown-item :to="{ name: 'Home' }">Sign Out</b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'Login' }">Login</b-dropdown-item>
+            <b-dropdown-item @click="logout" >Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -39,7 +40,24 @@
 
 <script>
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  data () {
+    return {
+    }
+  },
+  beforeCreate: function () {
+    if (!this.$session.exists()) {
+      this.$router.push({name: 'Home'})
+    }
+  },
+  methods: {
+    logout: function () {
+      this.$session.destroy()
+      this.$router.push({name: 'Login'})
+      this.$store.dispatch('setToken', null)
+      this.$store.dispatch('setUser', null)
+    }
+  }
 }
 </script>
 

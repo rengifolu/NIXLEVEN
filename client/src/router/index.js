@@ -6,6 +6,7 @@ import Music from '@/components/Music'
 import Portfolio from '@/components/Portfolio'
 import ImagenLetras from '@/components/ImagenLetras'
 import Go from '@/components/Go'
+import Usuario from '@/components/Usuario'
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
       path: '/Go',
       name: 'Go',
       component: Go
+    },
+    {
+      path: '/Usuario',
+      name: 'Usuario',
+      component: Usuario
     }
   ]
 })

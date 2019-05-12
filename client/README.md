@@ -40,7 +40,11 @@ git push -u origin master
 
 npm install --save axios
 
+npm install vuex --save
 
+npm install --save vue-session
+
+npm install --save vuex-router-sync
 
 
 

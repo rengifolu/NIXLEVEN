@@ -3,7 +3,7 @@
   <div>
     <b-card
       overlay
-      img-src="./static/IMG_3768.jpeg"
+      img-src="./static/leon.jpeg"
       img-alt="Card Image"
       text-variant="white"
       title="NixLeven"

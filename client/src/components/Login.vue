@@ -1,6 +1,6 @@
 <template>
   <div class="panel">
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form @reset="onReset" v-if="show">
       <b-form-group
         id="input-group-1"
         label="Email address:"
@@ -9,70 +9,62 @@
       >
         <b-form-input
           id="input-1"
-          v-model="form.email"
+          v-model="email"
           type="email"
           required
           placeholder="Enter email"
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-        <b-form-input id="input-2" v-model="form.name" required placeholder="Enter name"></b-form-input>
+      <b-form-group id="input-group-2" label="Your password:" label-for="input-2">
+        <b-form-input id="input-2" v-model="password" type="password" required placeholder="Enter password"></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-        <b-form-select id="input-3" v-model="form.food" :options="foods" required></b-form-select>
-      </b-form-group>
-
-      <b-form-group id="input-group-4">
-        <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
-      </b-form-group>
-
-      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button @click="login" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
+      <b-alert show variant="danger" class="error" v-html="error">Danger Alert</b-alert>
     </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
   </div>
 </template>
 
 <script>
+import AuthenticationService from '@/services/AuthenticationService'
 export default {
   name: 'Login',
   data () {
     return {
-      form: {
-        email: '',
-        name: '',
-        food: null,
-        checked: []
-      },
-      foods: [
-        { text: 'Select One', value: null },
-        'Carrots',
-        'Beans',
-        'Tomatoes',
-        'Corn'
-      ],
-      show: true
+      email: '',
+      password: '',
+      show: true,
+      error: null
     }
   },
   methods: {
-    onSubmit (evt) {
-      evt.preventDefault()
-      alert(JSON.stringify(this.form))
+    // este metodo enlaza desde '@/services/AuthenticationService' y
+    // desde ahi con Api.js donde esta axios
+    async login () { // asyn creo que conecta con axios por que sino no uncionaba
+      try {
+        const response = await AuthenticationService.login({ // almacena en response
+          email: this.email, // email de axios con this.email de v-model
+          password: this.password
+        })
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
+        if (response.status === 200 && response.data.token !== '') {
+          this.$session.start()
+          this.$session.set('setToken', response.data.token)
+        }
+        // y vamos a pagina de persona que se ha logado si es admin o empleado
+        this.$router.push({name: 'Usuario'})
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     },
     onReset (evt) {
       evt.preventDefault()
       // Reset our form values
-      this.form.email = ''
-      this.form.name = ''
-      this.form.food = null
-      this.form.checked = []
+      this.email = ''
+      this.password = ''
       // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
@@ -86,5 +78,8 @@ export default {
 .panel{
     margin: auto;
     width: 50%;
+}
+.error{
+  color:red;
 }
 </style>
