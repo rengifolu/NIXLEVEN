@@ -1,6 +1,6 @@
 <template>
   <div class="panel">
-    <h1>Login</h1>
+    <h1>Register</h1>
     <b-form @reset="onReset" v-if="show">
       <b-form-group
         id="input-group-1"
@@ -31,7 +31,7 @@
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
 export default {
-  name: 'Login',
+  name: 'Register',
   data () {
     return {
       email: '',
@@ -45,7 +45,7 @@ export default {
     // desde ahi con Api.js donde esta axios
     async login () { // asyn creo que conecta con axios por que sino no uncionaba
       try {
-        const response = await AuthenticationService.login({ // almacena en response
+        const response = await AuthenticationService.register({ // almacena en response
           email: this.email, // email de axios con this.email de v-model
           password: this.password
         })

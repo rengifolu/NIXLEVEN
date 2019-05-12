@@ -31,6 +31,7 @@
               <em>User</em>
             </template>
             <b-dropdown-item :to="{ name: 'Login' }">Login</b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'Register' }">Register</b-dropdown-item>
             <b-dropdown-item @click="logout" >Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

@@ -7,6 +7,7 @@ import Portfolio from '@/components/Portfolio'
 import ImagenLetras from '@/components/ImagenLetras'
 import Go from '@/components/Go'
 import Usuario from '@/components/Usuario'
+import Register from '@/components/Register'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/Usuario',
       name: 'Usuario',
       component: Usuario
+    },
+    {
+      path: '/Register',
+      name: 'Register',
+      component: Register
     }
   ]
 })
