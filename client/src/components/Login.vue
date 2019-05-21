@@ -1,86 +1,63 @@
 <template>
-  <div class="panel">
-    <h1>Login</h1>
-    <b-form @reset="onReset" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-        description="We'll never share your email with anyone else."
-      >
-        <b-form-input
-          id="input-1"
-          v-model="email"
-          type="email"
-          required
-          placeholder="Enter email"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-2" label="Your password:" label-for="input-2">
-        <b-form-input id="input-2" v-model="password" type="password" required placeholder="Enter password"></b-form-input>
-      </b-form-group>
-
-      <b-button @click="login" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-      <b-alert show variant="danger" class="error" v-html="error">Danger Alert</b-alert>
-    </b-form>
-  </div>
+    <div>
+        <h2>Login</h2>
+        <form @submit.prevent="handleSubmit">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" v-model="username" name="username" class="form-control" :class="{ 'is-invalid': submitted && !username }" />
+                <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
+            </div>
+            <div class="form-group">
+                <label htmlFor="password">Password</label>
+                <input type="password" v-model="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && !password }" />
+                <div v-show="submitted && !password" class="invalid-feedback">Password is required</div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" :disabled="status.loggingIn">Login</button>
+                <img v-show="status.loggingIn" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                <router-link to="/register" class="btn btn-link">Register</router-link>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import { mapState, mapActions } from 'vuex'
+
 export default {
-  name: 'Login',
   data () {
     return {
-      email: '',
+      username: '',
       password: '',
-      show: true,
-      error: null
+      submitted: false
     }
   },
+  computed: {
+    ...mapState('account', ['status'])
+  },
+  created () {
+    // reset login status
+    this.logout()
+  },
   methods: {
-    // este metodo enlaza desde '@/services/AuthenticationService' y
-    // desde ahi con Api.js donde esta axios
-    async login () { // asyn creo que conecta con axios por que sino no uncionaba
-      try {
-        const response = await AuthenticationService.login({ // almacena en response
-          email: this.email, // email de axios con this.email de v-model
-          password: this.password
-        })
-        this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.user)
-        if (response.status === 200 && response.data.token !== '') {
-          this.$session.start()
-          this.$session.set('setToken', response.data.token)
-        }
-        // y vamos a pagina de persona que se ha logado si es admin o empleado
-        this.$router.push({name: 'Usuario'})
-      } catch (error) {
-        this.error = error.response.data.error
+    ...mapActions('account', ['login', 'logout']),
+    handleSubmit (e) {
+      this.submitted = true
+      const { username, password } = this
+      if (username && password) {
+        this.login({ username, password })
       }
-    },
-    onReset (evt) {
-      evt.preventDefault()
-      // Reset our form values
-      this.email = ''
-      this.password = ''
-      // Trick to reset/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
     }
   }
 }
 </script>
+
 <style scope>
-.panel{
-    margin: auto;
-    width: 50%;
+.panel {
+  margin: auto;
+  width: 50%;
 }
-.error{
-  color:red;
+.error {
+  color: red;
 }
 </style>
