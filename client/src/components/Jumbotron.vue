@@ -4,13 +4,13 @@
     <template  slot = "header" > NixLeven </template>
 
     <template  slot = "lead" >
-      The official NixLseven Website..
+      The official NixLeven Website..
     </template>
 
     <hr  class = "my-4" >
 
     <p>
-        Andre Lujan, más conocido como NixLeven
+        Andre Lujan, better known as
     </p>
 
     <b-button  variant = "primary"  :to="{ name: 'Go' }"> Go </b-button >

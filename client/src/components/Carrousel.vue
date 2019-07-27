@@ -17,7 +17,7 @@
       <b-carousel-slide
         caption="First slide"
         text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="https://picsum.photos/id/5/1024/480"
+        img-src="./static/platos.jpg"
       ></b-carousel-slide>
 
       <!-- Text slides with image -->
@@ -28,12 +28,12 @@
       ></b-carousel-slide>
 
       <!-- Slides with custom text -->
-      <b-carousel-slide img-src="https://picsum.photos/id/60/1024/480" fluid>
+      <b-carousel-slide img-src="./static/mesaMezcla.jpg" fluid>
         <h1>Hello world!</h1>
       </b-carousel-slide>
 
             <!-- Slides with custom text -->
-      <b-carousel-slide img-src="./static/jorge.jpeg" fluid>
+      <b-carousel-slide img-src="./static/platos.jpg" fluid>
         <h1>Hello world!</h1>
       </b-carousel-slide>
 

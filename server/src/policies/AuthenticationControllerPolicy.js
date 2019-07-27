@@ -4,6 +4,9 @@ const Joi = require('joi')
 module.exports = {
   register (req, res, next) {
     const schema = {
+      firstName: Joi.string().alphanum().min(3).max(30).required(),
+      surName: Joi.string().alphanum().min(3).max(30).required(),
+      birthDate: Joi.date().required(),
       email: Joi.string().email(),
       password: Joi.string().regex(
         new RegExp('^[a-zA-Z0-9]{8,32}$')
@@ -14,6 +17,21 @@ module.exports = {
     const {error, value} = Joi.validate(req.body, schema)
     if (error) {
       switch (error.details[0].context.key) {
+        case 'firstName':
+        res.status(400).send({
+          error: 'Necesitas indicar un nombre valido'
+        })
+        break
+        case 'surName':
+        res.status(400).send({
+          error: 'Necesitas indicar un apellido valido'
+        })
+        break
+        case 'birthDate':
+        res.status(400).send({
+          error: 'Necesitas indicar una fecha de nacimiento valida'
+        })
+        break
         case 'email':
           res.status(400).send({
             error: 'Necesitas indicar un email valido'

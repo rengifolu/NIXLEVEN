@@ -13,7 +13,7 @@ app.use(cors())
 
 require('./routes')(app)
 
-sequelize.sync({force: true}).then(() => {
+sequelize.sync({force: false}).then(() => {
   app.listen(process.env.Port || 8081)
   // eslint-disable-next-line no-console
   console.log(`Server iniciado en puerto ${config.port}`)
